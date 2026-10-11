@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b10">
+<title>Mann's Intelligence — Stock Dashboard</title>
+<style>
+:root{--bg:#090b10;--panel:#141820;--line:#272d38;--gold:#e6bc56;--muted:#98a1b2;--green:#25d39a;--red:#fb7185;--blue:#7ab7ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#17140c 0,#090b10 42%);color:#f5f6f8;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#0d1016ee;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.top{max-width:1100px;margin:auto;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-weight:900;letter-spacing:1.4px;color:var(--gold);font-size:clamp(15px,3vw,21px)}
+.sub{color:var(--muted);font-size:10px;letter-spacing:1.6px;margin-top:4px}
+.pill{border:1px solid #695324;background:#2a2110;color:var(--gold);padding:7px 11px;border-radius:99px;font-size:11px;font-weight:800}
+main{max-width:1100px;margin:auto;padding:24px 20px 42px}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:20px;flex-wrap:wrap}
+h1{font-size:clamp(24px,4vw,34px);margin:0 0 7px}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.selector{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+select{background:var(--panel);color:white;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;min-width:150px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card{background:linear-gradient(145deg,#171b24,#11141a);border:1px solid var(--line);border-radius:17px;padding:17px;min-width:0}
+.label{font-size:10px;letter-spacing:1.4px;color:var(--muted);font-weight:800}
+.value{font-size:clamp(20px,3vw,28px);font-weight:850;margin:12px 0 6px;overflow-wrap:anywhere}
+.small{font-size:11px;color:var(--muted)}
+.status{color:var(--gold)}
+.section{margin-top:17px}
+.entry{background:linear-gradient(130deg,#211b0e,#141820 72%);border:1px solid #5b4924;border-radius:20px;padding:22px}
+.entry h2{margin:0;color:var(--gold);font-size:14px;letter-spacing:1.5px}
+.tag{display:inline-block;margin-top:14px;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:800;letter-spacing:.7px}
+.tag.demo{background:#193b30;color:#6ff0bd;border:1px solid #28654e}
+.tag.wait{background:#352a15;color:#ffd06a;border:1px solid #695324;margin-left:5px}
+.entryrange{font-size:clamp(25px,5vw,36px);font-weight:900;color:#ffc14d;margin:7px 0 17px}
+.bar{height:7px;border-radius:20px;background:#303640;overflow:hidden;margin:12px 0 7px}
+.bar span{display:block;height:100%;width:67%;background:linear-gradient(90deg,#17a978,#40e6ae);border-radius:20px}
+.levels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.level .value{font-size:22px}
+.red{color:var(--red)}.green{color:var(--green)}.blue{color:var(--blue)}
+.note{display:flex;gap:12px;background:#171a21;border:1px solid var(--line);padding:15px;border-radius:14px;color:#c2c7d0;font-size:12px;line-height:1.6}
+.note b{color:var(--gold)}
+footer{text-align:center;color:#697283;font-size:11px;margin-top:25px}
+@media(max-width:760px){main{padding:18px 13px 30px}.top{padding:14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.levels{grid-template-columns:repeat(2,minmax(0,1fr))}.entry{padding:17px}.intro{align-items:start}}
+@media(max-width:360px){.value{font-size:19px}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header><div class="top"><div><div class="brand">MANN'S INTELLIGENCE</div><div class="sub">INDONESIA STOCK ANALYSIS</div></div><div class="pill">● DEMO MODE</div></div></header>
+<main>
+  <div class="intro">
+    <div><h1>Market Dashboard</h1><div class="muted">Pantau struktur harga dan rencana analisis saham dalam satu halaman.</div></div>
+    <div class="selector"><label for="symbol" class="label">PILIH SAHAM</label><select id="symbol">
+      <option value="BBCA">BBCA</option><option value="BBRI">BBRI</option><option value="GOTO">GOTO</option><option value="BIPI">BIPI</option><option value="TLKM">TLKM</option>
+    </select></div>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="label">PRICE</div><div class="value" id="price">9.850</div><div class="small">Harga contoh • bukan live</div></div>
+    <div class="card"><div class="label">ATR</div><div class="value" id="atr">120</div><div class="small">Volatilitas contoh</div></div>
+    <div class="card"><div class="label">CONFIDENCE</div><div class="value">67<span class="small">/100</span></div><div class="bar"><span></span></div><div class="small">Skor demo</div></div>
+    <div class="card"><div class="label">STRUCTURE</div><div class="value status" id="structure">NEUTRAL</div><div class="small">Status ilustrasi</div></div>
+  </div>
+  <div class="section entry">
+    <h2>✦ ENTRY INTELLIGENCE</h2><span class="tag demo">DEMO DATA</span><span class="tag wait">NOT A LIVE SIGNAL</span>
+    <div class="label" style="margin-top:21px">ENTRY RANGE (ILUSTRASI)</div>
+    <div class="entryrange" id="entry">9.700 – 9.760</div>
+    <div class="bar"><span></span></div><div class="small" style="text-align:right">Setup quality: 67/100 (contoh)</div>
+  </div>
+  <div class="section levels">
+    <div class="card level"><div class="label blue">SUPPORT</div><div class="value" id="support">9.700</div></div>
+    <div class="card level"><div class="label green">RESISTANCE</div><div class="value" id="resistance">10.000</div></div>
+    <div class="card level"><div class="label red">STOP LOSS (DEMO)</div><div class="value" id="sl">9.580</div></div>
+    <div class="card level"><div class="label green">TAKE PROFIT 1 (DEMO)</div><div class="value" id="tp">10.000</div></div>
+  </div>
+  <div class="section grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <div class="card"><div class="label">RISK / REWARD</div><div class="value" id="rr">2.50 : 1</div><div class="small">Perhitungan ilustratif</div></div>
+    <div class="card"><div class="label">ANALYSIS STATUS</div><div class="value status" style="font-size:21px">WAIT / REVIEW</div><div class="small">Konfirmasi dengan data dan aturan teruji.</div></div>
+  </div>
+  <div class="section note"><div style="font-size:22px">⚠</div><div><b>Penting:</b> semua harga, ATR, confidence, entry, SL, dan TP di halaman ini adalah angka contoh untuk demo tampilan. Ini bukan harga Bursa Efek Indonesia real-time dan bukan rekomendasi transaksi. Untuk data aktual, hubungkan penyedia data yang berizin dan sesuai ketentuan.</div></div>
+  <footer>Mann's Intelligence • Web demo v0.1 • Data contoh</footer>
+</main>
+<script>
+const stocks={
+ BBCA:{price:9850,atr:120,support:9700,resistance:10000},
+ BBRI:{price:4100,atr:65,support:4000,resistance:4200},
+ GOTO:{price:70,atr:3,support:67,resistance:74},
+ BIPI:{price:248,atr:8,support:238,resistance:258},
+ TLKM:{price:2950,atr:45,support:2880,resistance:3020}
+};
+const fmt=n=>Number.isInteger(n)?n.toLocaleString('id-ID'):n.toLocaleString('id-ID',{maximumFractionDigits:2});
+function update(){
+ const s=stocks[document.getElementById('symbol').value];
+ const low=s.support, high=s.support+s.atr*.5, sl=s.support-s.atr, tp=s.resistance;
+ document.getElementById('price').textContent=fmt(s.price);
+ document.getElementById('atr').textContent=fmt(s.atr);
+ document.getElementById('support').textContent=fmt(s.support);
+ document.getElementById('resistance').textContent=fmt(s.resistance);
+ document.getElementById('sl').textContent=fmt(sl);
+ document.getElementById('tp').textContent=fmt(tp);
+ document.getElementById('entry').textContent=fmt(low)+' – '+fmt(high);
+ const risk=Math.abs(low-sl), reward=Math.abs(tp-low);
+ document.getElementById('rr').textContent=(risk?reward/risk:0).toFixed(2)+' : 1';
+ document.getElementById('structure').textContent=((s.price-s.support)/s.price<.015)?'NEAR SUPPORT':'NEUTRAL';
+}
+document.getElementById('symbol').addEventListener('change',update);
+update();
+</script>
+</body>
+</html>
